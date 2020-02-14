@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ischoolbar.programmer.dao.admin.JiluDao">
+	<!-- 根据名称查找项目实施记录-->
+	<select id="findByname" parameterType="String" resultType="Jilu">
+		select * from jilu where name = #{name}
+	</select>
+	<!-- 添加项目实施记录-->
+	<insert id="add" parameterType="Jilu">
+		insert into jilu(name,xiepeople,shijian,zuopeople,cailiao) values(#{name},#{xiepeople},#{shijian},#{zuopeople},#{cailiao})
+	</insert>
+	
+	<!--删除项目实施记录  -->
+	<delete id="delete" parameterType="String">
+	    delete from jilu where name =#{name}
+	</delete>
+	<!-- 分页获取项目实施记录列表 -->
+	<select id="findList" parameterType="Map" resultType="Jilu">
+		select * from jilu where 1 = 1 
+		<if test="xiepeople != null">
+			and xiepeople= #{xiepeople}  
+		</if>
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="shijian != null">
+			and shijian = #{shijian}  
+		</if>
+		<if test="zuopeople != null">
+			and zuopeople = #{zuopeople}  
+		</if>
+		<if test="offset != null and pageSize != null">
+			limit #{offset},#{pageSize}
+		</if>
+	</select>
+	<!-- 获取符合结果的总记录数 -->
+	<select id="getTotal" parameterType="Map" resultType="Integer">
+		select count(*) from jilu where 1 = 1 
+		<if test="xiepeople != null">
+			and xiepeople= #{xiepeople}  
+		</if>
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="zuopeople != null">
+			and zuopeople = #{zuopeople}  
+		</if>
+	</select>
+</mapper>

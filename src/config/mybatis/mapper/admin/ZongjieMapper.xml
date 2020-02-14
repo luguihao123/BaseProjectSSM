@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ischoolbar.programmer.dao.admin.ZongjieDao">
+	<!-- 根据报告名查找报告-->
+	<select id="findByname" parameterType="String" resultType="Zongjie">
+		select * from zongjie where name = #{name}
+	</select>
+	<!-- 添加项目立项报告-->
+	<insert id="add" parameterType="Zongjie">
+		insert into zongjie(name,people,beizhu,fujian) values (#{name},#{people},#{beizhu},#{fujian})
+	</insert>
+	<!-- 修改项目立项报告 -->
+	<update id="edit" parameterType="Zongjie">
+		update zongjie set people = #{people},beizhu = #{beizhu},fujian = #{fujian} where name = #{name}
+	</update>
+	<!-- 删除项目立项报告 -->
+	<delete id="delete" parameterType="String">
+		delete from zongjie where name = #{name}
+	</delete>
+	<!-- 分页获取项目立项报告列表 -->
+	<select id="findList" parameterType="Map" resultType="Zongjie">
+		select * from zongjie where 1 = 1 
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="people != null">
+			and people = #{people}  
+		</if>
+		<if test="fujian != null">
+			and fujian = #{fujian}  
+		</if>
+		<if test="offset != null and pageSize != null">
+			limit #{offset},#{pageSize}
+		</if>
+	</select>
+	<!-- 获取符合结果的总记录数 -->
+	<select id="getTotal" parameterType="Map" resultType="Integer">
+		select count(*) from zongjie where 1 = 1 
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="people != null">
+			and people = #{people}  
+		</if>
+		<if test="fujian != null">
+			and fujian = #{fujian}  
+		</if>
+	</select>
+</mapper>

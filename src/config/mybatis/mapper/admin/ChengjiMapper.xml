@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ischoolbar.programmer.dao.admin.ChengjiDao">
+	<!-- 根据员工姓名查找考核成绩-->
+	<select id="findByname" parameterType="String" resultType="Chengji">
+		select * from chengji where name = #{name}
+	</select>
+	<!-- 添加员工考核成绩-->
+	<insert id="add" parameterType="Chengji">
+		insert into chengji(time,name,chengji) values(#{time},#{name},#{chengji})
+	</insert>
+	
+	<!-- 分页获取考核成绩列表 -->
+	<select id="findList" parameterType="Map" resultType="Chengji">
+		select * from chengji where 1 = 1 
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="time != null">
+			and time = #{time}  
+		</if>
+		<if test="chengji != null">
+			and chengji = #{chengji}  
+		</if>
+		<if test="offset != null and pageSize != null">
+			limit #{offset},#{pageSize}
+		</if>
+	</select>
+	<!-- 获取符合结果的总记录数 -->
+	<select id="getTotal" parameterType="Map" resultType="Integer">
+		select count(*) from chengji where 1 = 1 
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="time != null">
+			and time = #{time}  
+		</if>
+		<if test="chengji != null">
+			and chengji = #{chengji}  
+		</if>
+	</select>
+</mapper>

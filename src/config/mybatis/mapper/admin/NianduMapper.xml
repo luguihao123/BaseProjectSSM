@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ischoolbar.programmer.dao.admin.NianduDao">
+	<!-- 根据报告名查找报告-->
+	<select id="findByname" parameterType="String" resultType="Niandu">
+		select * from niandu where name = #{name}
+	</select>
+	<!-- 添加年度工作报告-->
+	<insert id="add" parameterType="Niandu">
+		insert into niandu(name,people,beizhu,fujian) values(#{name},#{people},#{beizhu},#{fujian})
+	</insert>
+	<!-- 修改年度工作报告 -->
+	<update id="edit" parameterType="Niandu">
+		update niandu set name = #{name},people = #{people},beizhu = #{beizhu},fujian = #{fujian} where name = #{name}
+	</update>
+	<!-- 分页获取年度工作报告列表 -->
+	<select id="findList" parameterType="Map" resultType="Niandu">
+		select * from niandu where 1 = 1 
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="people != null">
+			and people = #{people}  
+		</if>
+		<if test="fujian != null">
+			and fujian = #{fujian}  
+		</if>
+		<if test="offset != null and pageSize != null">
+			limit #{offset},#{pageSize}
+		</if>
+	</select>
+	<!-- 获取符合结果的总记录数 -->
+	<select id="getTotal" parameterType="Map" resultType="Integer">
+		select count(*) from niandu where 1 = 1 
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="people != null">
+			and people = #{people}  
+		</if>
+		<if test="fujian != null">
+			and fujian = #{fujian}  
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ischoolbar.programmer.dao.admin.JihuaDao">
+	<!-- 根据工作计划名称查找计划-->
+	<select id="findByname" parameterType="String" resultType="Jihua">
+		select * from jihua where name = #{name}
+	</select>
+	
+	<!-- 添加工作计划-->
+	<insert id="add" parameterType="Jihua">
+		insert into jihua(name,people,beizhu,fujian) values(#{name},#{people},#{beizhu},#{fujian})
+	</insert>
+	
+	<!-- 修改工作计划 -->
+	<update id="edit" parameterType="Jihua">
+		update jihua set name = #{name},people = #{people},beizhu = #{beizhu},fujian = #{fujian} where name = #{name}
+	</update>
+	
+	<!--删除工作计划  -->
+	<delete id="delete" parameterType="String">
+	    delete from jihua where name = #{name}
+	</delete>
+	
+	<!--审核工作计划  -->
+	<update id="review" parameterType="String">
+	    update jihua set state = #{state} where name = #{name}
+	</update>
+	
+	<!-- 分页获取调研报告列表 -->
+	<select id="findList" parameterType="Map" resultType="Jihua">
+		select * from jihua where 1 = 1 
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="people != null">
+			and people = #{people}  
+		</if>
+		<if test="fujian != null">
+			and fujian = #{fujian}  
+		</if>
+		<if test="offset != null and pageSize != null">
+			limit #{offset},#{pageSize}
+		</if>
+	</select>
+	<!-- 获取符合结果的总记录数 -->
+	<select id="getTotal" parameterType="Map" resultType="Integer">
+		select count(*) from jihua where 1 = 1 
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="people != null">
+			and people = #{people}  
+		</if>
+		<if test="fujian != null">
+			and fujian = #{fujian}  
+		</if>
+	</select>
+</mapper>

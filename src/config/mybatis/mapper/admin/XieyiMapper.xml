@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ischoolbar.programmer.dao.admin.XieyiDao">
+	<!-- 根据捐赠协议名称查找捐赠协议-->
+	<select id="findByname" parameterType="String" resultType="Xieyi">
+		select * from xieyi where name = #{name}
+	</select>
+	<!-- 添加捐赠协议-->
+	<insert id="add" parameterType="Xieyi">
+		insert into xieyi(name,phone,jine,fangshi,xiangmu,time,beizhu,fujian) 
+		values(#{name},#{phone},#{jine},#{fangshi},#{xiangmu},#{time},#{beizhu},#{fujian})
+	</insert>
+	
+	<!-- 分页获取捐赠协议列表 -->
+	<select id="findList" parameterType="Map" resultType="Xieyi">
+		select * from xieyi where 1 = 1 
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="time != null">
+			and time = #{time}  
+		</if>
+		<if test="offset != null and pageSize != null">
+			limit #{offset},#{pageSize}
+		</if>
+	</select>
+	<!-- 获取符合结果的总记录数 -->
+	<select id="getTotal" parameterType="Map" resultType="Integer">
+		select count(*) from xieyi where 1 = 1 
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="time != null">
+			and time = #{time}  
+		</if>
+	</select>
+</mapper>

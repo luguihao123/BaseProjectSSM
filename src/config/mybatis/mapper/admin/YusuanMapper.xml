@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ischoolbar.programmer.dao.admin.YusuanDao">
+	<!-- 根据预算用途查找预算 -->
+	<select id="findByYongtu" parameterType="String" resultType="Yusuan">
+		select * from yusuan where yongtu = #{yongtu}
+	</select>
+	<!-- 添加财务预算 -->
+	<insert id="add" parameterType="Yusuan">
+		insert into yusuan(yongtu,jine,beizhu,fujian) values(#{yongtu},#{jine},#{beizhu},#{fujian})
+	</insert>
+	<!-- 修改财务预算-->
+	<update id="edit" parameterType="Yusuan">
+		update yusuan set jine = #{jine},beizhu = #{beizhu},fujian = #{fujian} where yongtu = #{yongtu}
+	</update>
+	<!-- 删除财务预算-->
+	<delete id="delete" parameterType="String">
+		delete from yusuan where yongtu = #{yongtu}
+	</delete>
+	<!-- 分页获取用户列表 -->
+	<select id="findList" parameterType="Map" resultType="Yusuan">
+		select * from yusuan where 1 = 1 
+		<if test="yongtu != null">
+			and yongtu like '%${yongtu}%' 
+		</if>
+		<if test="jine != null">
+			and jine = #{jine}  
+		</if>
+		<if test="offset != null and pageSize != null">
+			limit #{offset},#{pageSize}
+		</if>
+	</select>
+	<!-- 获取符合结果的总记录数 -->
+	<select id="getTotal" parameterType="Map" resultType="Integer">
+		select count(*) from yusuan where 1 = 1 
+		<if test="yongtu != null">
+			and yongtu like '%${yongtu}%' 
+		</if>
+		<if test="jine != null">
+			and jine = #{jine}  
+		</if>
+	</select>
+</mapper>
