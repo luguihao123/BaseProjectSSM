@@ -7,6 +7,4 @@
 使用EasyUI作为项目的前端框架；
 使用Tomcat作为项目的Web应用服务器。
 
-超级管理员权限：
-用户名：admin
-密  码：admin
+
